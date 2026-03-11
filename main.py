@@ -2,6 +2,7 @@
 from api import *
 from graph import *
 
+
 MAX_RESULTS = 15
 
 exercises = get_all_exercises()
@@ -43,7 +44,7 @@ class App(customtkinter.CTk):
         # graph container
         self.graph_frame = customtkinter.CTkFrame(
             self,
-            width=410,
+            width=490,
             height=310
         )
         self.graph_frame.grid(row=1, column=1, padx=10, pady=10)
@@ -101,10 +102,11 @@ class App(customtkinter.CTk):
             button.grid_remove()
 
     def exercise_clicked(self, name):
+        exercise = next((ex for ex in exercises if ex["title"] == name), None)
         if self.current_graph is not None:
 
             self.current_graph.get_tk_widget().destroy()
-        self.current_graph = create_graph(self.graph_frame, name)
+        self.current_graph = create_graph(self.graph_frame, exercise)
 
     def truncate_text(self, text, max_chars=32):
         if len(text) > max_chars:

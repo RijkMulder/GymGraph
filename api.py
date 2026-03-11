@@ -5,8 +5,7 @@ import os
 
 load_dotenv()
 API_KEY = os.getenv("API_KEY")
-
-base_url = "https://api.hevyapp.com"
+base_url = "https://api.hevyapp.com/v1"
 
 headers = {
     "api-key": f"{API_KEY}"
@@ -21,6 +20,7 @@ def make_request(url):
     )
 
     # convert json to a python dictionary
+    print(r)
     data = json.loads(r.text)
     return data
 
@@ -32,7 +32,7 @@ def get_all_exercises():
 
     while True:
         # pageSize 100 because that is max allowed by the API
-        url = f"/v1/exercise_templates?page={page}&pageSize={page_size}"
+        url = f"/exercise_templates?page={page}&pageSize={page_size}"
 
         # make request and get data
         data = make_request(url)
@@ -44,4 +44,9 @@ def get_all_exercises():
             break
         page += 1
     return all_exercises
+
+def get_exercise_history(exercise_id):
+    url = f"/exercise_history/{exercise_id}"
+    data = make_request(url)
+    return data["exercise_history"]
 
